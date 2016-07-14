@@ -1,0 +1,65 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.0.RC1'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'project-report'
+apply plugin: 'build-dashboard'
+apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
+
+
+jar {
+    baseName = 'spring-boot-gradle-demo'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+ext {
+    checkstyleVersion = '6.16.1'
+    jacocoVersion = '0.7.6.201602180812'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    runtime('org.springframework.boot:spring-boot-dev-tools')
+    runtime('org.springframework.boot:spring-boot-configuration-processor')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+    }
+}
+
+test.finalizedBy jacocoTestReport
+
+checkstyle {
+    toolVersion = checkstyleVersion
+    config = rootProject.resources.text.fromFile('etc/checkstyle/rules.xml')
+}
+

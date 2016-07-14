@@ -1,0 +1,18 @@
+logging:
+  level:
+    org:
+      apache: off
+      springframework:
+        web: off
+        jmx: off
+        boot:
+          ROOT: info
+          web:
+            servlet:
+              FilterRegistrationBean: off
+              ServletRegistrationBean: off
+        hibernate:
+          ROOT: info
+          SQL: debug
+          type: trace
+---
